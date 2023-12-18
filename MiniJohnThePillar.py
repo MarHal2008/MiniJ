@@ -2,28 +2,49 @@
 # sha256
 # md5
 import hashlib
-# x = input()
-# sha224 = hashlib.sha224(x.encode())
-# print(f"sha224 for x = ,{sha224.hexdigest()}")
 import sys
 
 
-def hashCracking(format):
-    with open(wordlist_pathway, "p") as p:
-        for i in p:
-            print(i.strip())
-    if format == "md5":
-        hashlib.md5(p.decode)
-    elif format == "sha224":
-        hashlib.sha224(p.decode)
-    elif format == "sha256":
-        hashlib.sha256(p.decode)
+def hashed_sha224(word):
+    hash_value = hashlib.sha224(f"{word}".encode('utf-8'))
+    hashed = hash_value.hexdigest()
+    return hashed
 
 
-if len(sys.argv) == 4:
-    format = sys.argv[1]
-    wordlist_pathway = sys.argv[2]
-    hash = sys.argv[3]
-    hashCracking(format, wordlist_pathway, hash)
+def hashed_sha256(word):
+    hash_value = hashlib.sha256(f"{word}".encode('utf-8'))
+    hashed = hash_value.hexdigest()
+    return hashed
+
+
+def hashed_md5(word):
+    hash_value = hashlib.md5(f"{word}".encode('utf-8'))
+    hashed = hash_value.hexdigest()
+    return hashed
+
+
+format = sys.argv[1]
+wordlist_pathway = sys.argv[2]
+wordhash = sys.argv[3]
+
+
+def hashCracking(format, wordlist_pathway, wordhash):
+    with open(wordlist_pathway, "r") as file:
+        for line in file:
+            for word in line.split():
+                if format == "md5":
+                    if hashed_md5(word) == wordhash:
+                        return word
+                elif format == "sha224":
+                    if hashed_sha224(word) == wordhash:
+                        return word
+                elif format == "sha256":
+                    if hashed_sha256(word) == wordhash:
+                        return word
+
+
+solvedWord = hashCracking(wordhash, format, wordlist_pathway)
+if solvedWord:
+    print(f"Cracked hash: {solvedWord}")
 else:
     print("I need more arguments!")
