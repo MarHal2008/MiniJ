@@ -23,12 +23,12 @@ def hashed_md5(word):
     return hashed
 
 
-format = sys.argv[1]
-wordlist_pathway = sys.argv[2]
-wordhash = sys.argv[3]
+wordhash = sys.argv[1]
+formant = sys.argv[2]
+wordlist_pathway = sys.argv[3]
 
 
-def hashCracking(format, wordlist_pathway, wordhash):
+def hashCracking(formant, wordlist_pathway, wordhash):
     with open(wordlist_pathway, "r") as file:
         for line in file:
             for word in line.split():
@@ -43,7 +43,7 @@ def hashCracking(format, wordlist_pathway, wordhash):
                         return word
 
 
-solvedWord = hashCracking(wordhash, format, wordlist_pathway)
+solvedWord = hashCracking(wordhash, formant, wordlist_pathway)
 if solvedWord:
     print(f"Cracked hash: {solvedWord}")
 else:
